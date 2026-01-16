@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+  PG[(RDS PostgreSQL\nWAL logical replication)] -->|CDC| DMS[AWS DMS Task\nFull load + CDC]
+  DMS -->|Parquet| S3[(S3 Bucket\npublic/customers\npublic/orders)]
+  S3 -->|S3 Event| SQS[(SQS Queue\nSnowpipe notifications)]
+  SQS --> SP[Snowpipe\nAUTO_INGEST]
+  SP --> RAW[(Snowflake RAW\nCUSTOMERS_RAW\nORDERS_RAW)]
+  RAW --> STM[Streams\n*_RAW_STM]
+  STM -->|WHEN stream has data| TSK[Tasks\nMERGE deduped]
+  TSK --> CUR[(Snowflake CURATED\nDIM_CUSTOMERS\nFACT_ORDERS)]

@@ -1,0 +1,34 @@
+CREATE OR REPLACE PIPE DMS_CDC_DB.RAW.ORDERS_PIPE
+  AUTO_INGEST = TRUE
+AS
+COPY INTO DMS_CDC_DB.RAW.ORDERS_RAW
+FROM (
+  SELECT
+    $1:order_id::NUMBER,
+    $1:customer_id::NUMBER,
+    $1:order_amount::NUMBER(18,2),
+    $1:status::STRING,
+    $1:order_ts::TIMESTAMP,
+    $1:updated_at::TIMESTAMP,
+    $1:dms_ts::TIMESTAMP
+  FROM @DMS_CDC_DB.RAW.DMS_S3_STAGE/orders/
+)
+FILE_FORMAT = (FORMAT_NAME = DMS_CDC_DB.RAW.PARQUET_FF);
+
+CREATE OR REPLACE PIPE DMS_CDC_DB.RAW.CUSTOMERS_PIPE
+  AUTO_INGEST = TRUE
+AS
+COPY INTO DMS_CDC_DB.RAW.CUSTOMERS_RAW
+FROM (
+  SELECT
+    $1:customer_id::NUMBER,
+    $1:full_name::STRING,
+    $1:email::STRING,
+    $1:city::STRING,
+    $1:state_cd::STRING,
+    $1:created_at::TIMESTAMP,
+    $1:updated_at::TIMESTAMP,
+    $1:dms_ts::TIMESTAMP
+  FROM @DMS_CDC_DB.RAW.DMS_S3_STAGE/customers/
+)
+FILE_FORMAT = (FORMAT_NAME = DMS_CDC_DB.RAW.PARQUET_FF);

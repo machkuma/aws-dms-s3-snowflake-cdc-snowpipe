@@ -1,0 +1,26 @@
+---
+
+## 4) IAM JSON files
+
+### `iam/snowflake_role_trust_policy.json`
+(Uses your Snowflake values you already used)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SnowflakeAssumeRole",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::053442322070:user/30fe1000-s"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "SAC77099_SFCRole=2_H8Gn5k/Z1rrfiM5yHWEhkXZ29Wo="
+        }
+      }
+    }
+  ]
+}
