@@ -112,3 +112,13 @@ Mermaid diagram is in `architecture/architecture.mmd`.
   - `CURATED.DIM_CUSTOMERS`
 
 See `sql/06_validation_queries.sql`.
+
+---
+
+## 👤 Author
+
+**Pradeep Machiraju**
+
+Senior Data Engineer  
+LinkedIn: https://www.linkedin.com/in/pradeep-kumar-machiraju-30773055  
+GitHub: https://github.com/machkuma
